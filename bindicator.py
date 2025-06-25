@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 # API endpoint
 url = "https://api.westnorthants.digital/openapi/v1/unified-waste-collections/100031184867"
 today = datetime.now().date()
+topic = "towcester-bindicator"  # Change this to your ntfy.sh topic
 
 # Fetch data from the API
 response = requests.get(url)
@@ -24,7 +25,6 @@ if refuse_date_str:
     # Check if today is one day before refuse_date
     if today == refuse_date - timedelta(days=1):
         # Send alert to ntfy.sh
-        topic = "towcester-bindicator-test"  # Change this to your ntfy.sh topic
         message = f"Reminder: Black bin collection is tomorrow ({refuse_date})!"
         ntfy_url = f"https://ntfy.sh/{topic}"
         requests.post(ntfy_url, data=message.encode('utf-8'), headers={"Tags": "wastebasket,black_circle"})
@@ -41,7 +41,6 @@ if recycling_date_str:
     # Check if today is one day before refuse_date
     if today == recycling_date - timedelta(days=1):
         # Send alert to ntfy.sh
-        topic = "towcester-bindicator"  # Change this to your ntfy.sh topic
         message = f"Reminder: Recycling collection is tomorrow ({recycling_date})!"
         ntfy_url = f"https://ntfy.sh/{topic}"
         requests.post(ntfy_url, data=message.encode('utf-8'), headers={"Tags": "recycle,large_blue_circle"})
